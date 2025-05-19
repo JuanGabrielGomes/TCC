@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kedra Pet - Dispositivos Conectados</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(90deg, cyan, white);
+        }
+        .dashboard-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: cyan;
+            color: black;
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: darkslategrey;
+            color: white;
+        }
+        .device-card {
+            transition: all 0.3s ease;
+        }
+        .device-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="landingPage.html">
+                <img src="logo_comp._kedra-removebg-preview (1).png" alt="Logo Kedra Pet" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dispenser.html">Dispositivos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Registrados</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="me-3">Olá, Usuário!</span>
+                    <a href="login.html" class="btn btn-custom">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <div class="dashboard-card p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-0">Dispositivos ESP32</h2>
+                    <p class="text-muted mb-0">Gerencie seus dispositivos conectados</p>
+                </div>
+                <button class="btn btn-custom" onclick="buscarDispositivos()">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Atualizar
+                </button>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="dashboard-card p-4">
+                    <h5 class="text-muted">Total de Dispositivos</h5>
+                    <h2 id="totalDevices">4</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card p-4">
+                    <h5 class="text-muted">Dispositivos Ativos</h5>
+                    <h2 id="activeDevices">3</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card p-4">
+                    <h5 class="text-muted">Última Atualização</h5>
+                    <h2 id="lastUpdate">19/11 15:30</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="devicesGrid">
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card device-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>ESP32-001</h4>
+                            <p class="text-muted mb-0">Dispenser Sala 1</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success me-2">Conectado</span>
+                            <button class="btn btn-danger btn-sm" onclick="toggleDevice('001')">Desconectar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted">IP</small>
+                            <p class="mb-0">192.168.1.101</p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Última Atividade</small>
+                            <p class="mb-0">Há 5 minutos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card device-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>ESP32-002</h4>
+                            <p class="text-muted mb-0">Dispenser Sala 2</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-danger me-2">Desconectado</span>
+                            <button class="btn btn-success btn-sm" onclick="toggleDevice('002')">Conectar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted">IP</small>
+                            <p class="mb-0">192.168.1.102</p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Última Atividade</small>
+                            <p class="mb-0">Há 1 hora</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card device-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>ESP32-003</h4>
+                            <p class="text-muted mb-0">Dispenser Sala 3</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success me-2">Conectado</span>
+                            <button class="btn btn-danger btn-sm" onclick="toggleDevice('003')">Desconectar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted">IP</small>
+                            <p class="mb-0">192.168.1.103</p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Última Atividade</small>
+                            <p class="mb-0">Há 2 minutos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card device-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>ESP32-004</h4>
+                            <p class="text-muted mb-0">Dispenser Sala 4</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success me-2">Conectado</span>
+                            <button class="btn btn-danger btn-sm" onclick="toggleDevice('004')">Desconectar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted">IP</small>
+                            <p class="mb-0">192.168.1.104</p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Última Atividade</small>
+                            <p class="mb-0">Há 8 minutos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <small>&copy; 2024 Kedra Pet. Todos os direitos reservados.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleDevice(deviceId) {
+            const deviceCard = document.querySelector(`[onclick="toggleDevice('${deviceId}')"]`).closest('.device-card');
+            const statusBadge = deviceCard.querySelector('.badge');
+            const toggleButton = deviceCard.querySelector('.btn');
+            
+            const isConnected = statusBadge.classList.contains('bg-success');
+            
+            if (isConnected) {
+                statusBadge.classList.replace('bg-success', 'bg-danger');
+                statusBadge.textContent = 'Desconectado';
+                toggleButton.classList.replace('btn-danger', 'btn-success');
+                toggleButton.textContent = 'Conectar';
+            } else {
+                statusBadge.classList.replace('bg-danger', 'bg-success');
+                statusBadge.textContent = 'Conectado';
+                toggleButton.classList.replace('btn-success', 'btn-danger');
+                toggleButton.textContent = 'Desconectar';
+            }
+            
+            updateStatistics();
+        }
+        function updateStatistics() {
+            const totalDevices = document.querySelectorAll('.device-card').length;
+            const activeDevices = document.querySelectorAll('.badge.bg-success').length;
+            const currentTime = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const currentDate = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+            
+            document.getElementById('totalDevices').textContent = totalDevices;
+            document.getElementById('activeDevices').textContent = activeDevices;
+            document.getElementById('lastUpdate').textContent = `${currentDate} ${currentTime}`;
+        }
+        function buscarDispositivos() {
+            const button = document.querySelector('.btn-custom');
+            const icon = button.querySelector('.bi');
+            icon.classList.add('rotate');
+            button.disabled = true;
+            setTimeout(() => {
+                icon.classList.remove('rotate');
+                button.disabled = false;
+                updateStatistics();
+                alert('Busca de dispositivos concluída!');
+            }, 1500);
+        }
+        document.addEventListener('DOMContentLoaded', updateStatistics);
+    </script>
+</body>
+</html>

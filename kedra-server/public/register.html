@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kedra Pet - Horários de Alimentação</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(90deg, cyan, white);
+        }
+        .dashboard-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: cyan;
+            color: black;
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: darkslategrey;
+            color: white;
+        }
+        .schedule-card {
+            transition: all 0.3s ease;
+        }
+        .schedule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="landingPage.html">
+                <img src="logo_comp._kedra-removebg-preview (1).png" alt="Logo Kedra Pet" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dispenser.html">Dispositivos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Registrados</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="me-3">Olá, Usuário!</span>
+                    <a href="login.html" class="btn btn-custom">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <div class="dashboard-card p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-0">Horários de Alimentação</h2>
+                    <p class="text-muted mb-0">Gerencie os horários e quantidades de ração</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="dashboard-card p-4">
+                    <h5 class="text-muted">Total de Horários</h5>
+                    <h2 id="totalSchedules">4</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card p-4">
+                    <h5 class="text-muted">Horários Ativos</h5>
+                    <h2 id="activeSchedules">2</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card p-4">
+                    <h5 class="text-muted">Próxima Alimentação</h5>
+                    <h2 id="nextFeeding">14:00</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="schedulesGrid">
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card schedule-card p-4" id="schedule1">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>Horário 1</h4>
+                            <p class="text-muted mb-0" id="status1">Não Cadastrado</p>
+                        </div>
+                        <button class="btn btn-success" onclick="toggleSchedule('1')">Cadastrar</button>
+                    </div>
+                    <div class="schedule-details d-none">
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted">Horário</small>
+                                <p class="mb-0" id="time1">--:--</p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Quantidade</small>
+                                <p class="mb-0" id="amount1">-- g</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card schedule-card p-4" id="schedule2">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>Horário 2</h4>
+                            <p class="text-muted mb-0" id="status2">Cadastrado</p>
+                        </div>
+                        <button class="btn btn-danger" onclick="toggleSchedule('2')">Descadastrar</button>
+                    </div>
+                    <div class="schedule-details">
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted">Horário</small>
+                                <p class="mb-0" id="time2">14:00</p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Quantidade</small>
+                                <p class="mb-0" id="amount2">150 g</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card schedule-card p-4" id="schedule3">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>Horário 3</h4>
+                            <p class="text-muted mb-0" id="status3">Não Cadastrado</p>
+                        </div>
+                        <button class="btn btn-success" onclick="toggleSchedule('3')">Cadastrar</button>
+                    </div>
+                    <div class="schedule-details d-none">
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted">Horário</small>
+                                <p class="mb-0" id="time3">--:--</p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Quantidade</small>
+                                <p class="mb-0" id="amount3">-- g</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="dashboard-card schedule-card p-4" id="schedule4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4>Horário 4</h4>
+                            <p class="text-muted mb-0" id="status4">Cadastrado</p>
+                        </div>
+                        <button class="btn btn-danger" onclick="toggleSchedule('4')">Descadastrar</button>
+                    </div>
+                    <div class="schedule-details">
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted">Horário</small>
+                                <p class="mb-0" id="time4">18:00</p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Quantidade</small>
+                                <p class="mb-0" id="amount4">200 g</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="scheduleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Horário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="scheduleForm">
+                        <input type="hidden" id="scheduleId">
+                        <div class="mb-3">
+                            <label for="timeInput" class="form-label">Horário</label>
+                            <input type="time" class="form-control" id="timeInput" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amountInput" class="form-label">Quantidade (g)</label>
+                            <input type="number" class="form-control" id="amountInput" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-custom" onclick="saveSchedule()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <small>&copy; 2024 Kedra Pet. Todos os direitos reservados.</small>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let scheduleModal;
+        document.addEventListener('DOMContentLoaded', function() {
+            scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+            updateStatistics();
+        });
+        function toggleSchedule(id) {
+            const scheduleCard = document.getElementById(`schedule${id}`);
+            const statusText = document.getElementById(`status${id}`);
+            const toggleButton = scheduleCard.querySelector('.btn');
+            const details = scheduleCard.querySelector('.schedule-details');
+            if (statusText.textContent === 'Não Cadastrado') {
+                document.getElementById('scheduleId').value = id;
+                scheduleModal.show();
+            } else {
+                statusText.textContent = 'Não Cadastrado';
+                toggleButton.textContent = 'Cadastrar';
+                toggleButton.classList.replace('btn-danger', 'btn-success');
+                details.classList.add('d-none');
+                document.getElementById(`time${id}`).textContent = '--:--';
+                document.getElementById(`amount${id}`).textContent = '-- g';
+                updateStatistics();
+            }
+        }
+        function saveSchedule() {
+            const id = document.getElementById('scheduleId').value;
+            const time = document.getElementById('timeInput').value;
+            const amount = document.getElementById('amountInput').value;
+            const scheduleCard = document.getElementById(`schedule${id}`);
+            const statusText = document.getElementById(`status${id}`);
+            const toggleButton = scheduleCard.querySelector('.btn');
+            const details = scheduleCard.querySelector('.schedule-details');
+            
+            statusText.textContent = 'Cadastrado';
+            toggleButton.textContent = 'Descadastrar';
+            toggleButton.classList.replace('btn-success', 'btn-danger');
+            details.classList.remove('d-none');
+            
+            document.getElementById(`time${id}`).textContent = time;
+            document.getElementById(`amount${id}`).textContent = `${amount} g`;
+            
+            scheduleModal.hide();
+            document.getElementById('scheduleForm').reset();
+            
+            updateStatistics();
+        }
+
+        function updateStatistics() {
+            const totalSchedules = 4;
+            const activeSchedules = document.querySelectorAll('[id^="status"]').length;
+            
+            let nextFeeding = '--:--';
+            const times = [];
+            for (let i = 1; i <= 4; i++) {
+                const timeElement = document.getElementById(`time${i}`);
+                if (timeElement && timeElement.textContent !== '--:--') {
+                    times.push(timeElement.textContent);
+                }
+            }
+            if (times.length > 0) {
+                times.sort();
+                nextFeeding = times[0];
+            }
+            
+            document.getElementById('totalSchedules').textContent = totalSchedules;
+            document.getElementById('activeSchedules').textContent = document.querySelectorAll('[id^="status"]').length;
+            document.getElementById('nextFeeding').textContent = nextFeeding;
+        }
+    </script>
+</body>
+</html>
